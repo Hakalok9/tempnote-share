@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="referrer" content="no-referrer">
+  <title>TempNotes - общий доступ</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, "Segoe UI", sans-serif;
+      background: #0b1118;
+      color: #e7edf3;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: 48px 1fr;
+      background: #0b1118;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 18px;
+      border-bottom: 1px solid #26333f;
+      background: #101922;
+      font-weight: 650;
+    }
+    header img { width: 24px; height: 24px; }
+    main {
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .panel {
+      width: min(100%, 480px);
+      padding: 28px;
+      border: 1px solid #30414e;
+      border-radius: 8px;
+      background: #111b24;
+      box-shadow: 0 18px 48px rgb(0 0 0 / 30%);
+      text-align: center;
+    }
+    .mark {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 18px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #19c6b3;
+      border-radius: 8px;
+      color: #43e0ce;
+      background: #102a2b;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    h1 { margin: 0 0 10px; font-size: 24px; letter-spacing: 0; }
+    p { margin: 0; color: #9cadba; line-height: 1.55; }
+    .actions { display: grid; gap: 10px; margin-top: 24px; }
+    button, a.button {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 6px;
+      border: 1px solid #1ccab7;
+      padding: 9px 14px;
+      font: inherit;
+      font-weight: 650;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    button { background: #19bca9; color: #061310; }
+    a.button { background: transparent; color: #d9e4eb; border-color: #40515e; }
+    button:disabled { opacity: .45; cursor: default; }
+    .status { min-height: 42px; margin-top: 18px; font-size: 13px; color: #8496a4; }
+    .error { color: #ff9a9f; }
+    .security {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #283742;
+      font-size: 12px;
+      color: #718593;
+    }
+    @media (max-width: 520px) {
+      main { padding: 14px; align-items: start; padding-top: 9vh; }
+      .panel { padding: 22px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="../assets/app_icon.ico" alt="">
+    <span>TempNotes</span>
+  </header>
+  <main>
+    <section class="panel" aria-labelledby="title">
+      <div class="mark" aria-hidden="true">T</div>
+      <h1 id="title">Вам открыли доступ</h1>
+      <p id="description">Откройте приглашение в TempNotes. Для принятия доступа потребуется войти в аккаунт.</p>
+      <div class="actions">
+        <button id="open" type="button">Открыть в TempNotes</button>
+        <a class="button" href="../downloads/TempNotes-Setup.exe">Скачать для Windows</a>
+      </div>
+      <p class="status" id="status">Если приложение установлено, браузер предложит его открыть.</p>
+      <p class="security">Секрет приглашения находится только после символа # и не отправляется этому сайту.</p>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      const invite = params.get('invite');
+      const secret = window.location.hash.slice(1);
+      const openButton = document.getElementById('open');
+      const status = document.getElementById('status');
+
+      if (!invite || !secret || !/^[a-zA-Z0-9-]+$/.test(invite)) {
+        openButton.disabled = true;
+        status.textContent = 'Ссылка повреждена или неполная.';
+        status.classList.add('error');
+        return;
+      }
+
+      const deepLink = `tempnotes://share/${encodeURIComponent(invite)}#${secret}`;
+      const openApp = () => {
+        status.textContent = 'Открываем TempNotes...';
+        window.location.href = deepLink;
+      };
+
+      openButton.addEventListener('click', openApp);
+      window.setTimeout(openApp, 700);
+    })();
+  </script>
+</body>
+</html>
