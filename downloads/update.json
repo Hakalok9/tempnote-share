@@ -1,10 +1,10 @@
 {
-  "version": "0.1.40",
-  "build": 41,
+  "version": "0.1.41",
+  "build": 42,
   "mandatory": true,
   "windows": {
     "url": "https://hakalok9.github.io/tempnote-share/downloads/TempNotes-Setup.exe",
-    "sha256": "41a5b16635a88182a753f47dbe419eae8c00d8a6e2dbd48d244092cf80e7e68c",
-    "size": 19003830
+    "sha256": "59ec6f49a31cd41a70535e27b29b74d6a8b0bc9e689b716b35e3565780a37d1f",
+    "size": 19002958
   }
 }
