@@ -1,10 +1,10 @@
 {
-  "version": "0.1.59",
-  "build": 60,
+  "version": "0.1.60",
+  "build": 61,
   "mandatory": true,
   "windows": {
     "url": "https://hakalok9.github.io/tempnote-share/downloads/Neytes-Setup.exe",
-    "sha256": "d5859bd64f270c20bbf18a701f7c98c22f2c798919e81e1a22216c61f347e553",
-    "size": 18953709
+    "sha256": "44f787c02adb67aa579af04b4cb55e14b040aba3d38ab78a738d7a1d70e861fe",
+    "size": 18952327
   }
 }
