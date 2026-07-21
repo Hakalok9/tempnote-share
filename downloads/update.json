@@ -1,10 +1,10 @@
 {
-  "version": "0.1.57",
-  "build": 58,
+  "version": "0.1.58",
+  "build": 59,
   "mandatory": true,
   "windows": {
-    "url": "https://hakalok9.github.io/tempnote-share/downloads/TempNotes-Setup.exe",
-    "sha256": "d249dfb143f08de6febbbc43c585bbd3f2972d3d233825e324216efa354c2717",
-    "size": 19017422
+    "url": "https://hakalok9.github.io/tempnote-share/downloads/Neytes-Setup.exe",
+    "sha256": "0070ac1147564037772676b3f53a44b01e6b3f53365b036a7754f99832c90f9a",
+    "size": 19042050
   }
 }

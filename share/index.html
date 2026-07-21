@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta name="referrer" content="no-referrer">
-  <title>TempNotes - общий доступ</title>
+  <title>Neytes - общий доступ</title>
+  <link rel="icon" href="../assets/neytes_mark.svg" type="image/svg+xml">
   <style>
     :root {
       color-scheme: dark;
@@ -45,19 +46,7 @@
       box-shadow: 0 18px 48px rgb(0 0 0 / 30%);
       text-align: center;
     }
-    .mark {
-      width: 58px;
-      height: 58px;
-      margin: 0 auto 18px;
-      display: grid;
-      place-items: center;
-      border: 1px solid #19c6b3;
-      border-radius: 8px;
-      color: #43e0ce;
-      background: #102a2b;
-      font-size: 28px;
-      font-weight: 700;
-    }
+    .mark { width: 78px; height: 78px; margin: 0 auto 18px; }
     h1 { margin: 0 0 10px; font-size: 24px; letter-spacing: 0; }
     p { margin: 0; color: #9cadba; line-height: 1.55; }
     .actions { display: grid; gap: 10px; margin-top: 24px; }
@@ -95,17 +84,17 @@
 </head>
 <body>
   <header>
-    <img src="../assets/app_icon.ico" alt="">
-    <span>TempNotes</span>
+    <img src="../assets/neytes_mark.svg" alt="">
+    <span>Neytes</span>
   </header>
   <main>
     <section class="panel" aria-labelledby="title">
-      <div class="mark" aria-hidden="true">T</div>
+      <img class="mark" src="../assets/neytes_mark.svg" alt="">
       <h1 id="title">Вам открыли доступ</h1>
-      <p id="description">Откройте приглашение в TempNotes. Для принятия доступа потребуется войти в аккаунт.</p>
+      <p id="description">Откройте приглашение в Neytes. Для принятия доступа потребуется войти в аккаунт.</p>
       <div class="actions">
-        <button id="open" type="button">Открыть в TempNotes</button>
-        <a class="button" href="../downloads/TempNotes-Setup.exe">Скачать для Windows</a>
+        <button id="open" type="button">Открыть в Neytes</button>
+        <a class="button" href="../downloads/Neytes-Setup.exe">Скачать для Windows</a>
       </div>
       <p class="status" id="status">Если приложение установлено, браузер предложит его открыть.</p>
       <p class="security">Секрет приглашения находится только после символа # и не отправляется этому сайту.</p>
@@ -128,7 +117,7 @@
 
       const deepLink = `tempnotes://share/${encodeURIComponent(invite)}#${secret}`;
       const openApp = () => {
-        status.textContent = 'Открываем TempNotes...';
+        status.textContent = 'Открываем Neytes...';
         window.location.href = deepLink;
       };
 
