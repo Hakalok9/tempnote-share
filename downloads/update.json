@@ -3,7 +3,7 @@
   "build": 61,
   "mandatory": true,
   "windows": {
-    "url": "https://hakalok9.github.io/tempnote-share/downloads/Neytes-Setup.exe",
+    "url": "https://neytes.space/downloads/Neytes-Setup.exe",
     "sha256": "44f787c02adb67aa579af04b4cb55e14b040aba3d38ab78a738d7a1d70e861fe",
     "size": 18952327
   }

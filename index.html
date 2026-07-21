@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b141c">
+  <meta name="description" content="Neytes — быстрые зашифрованные заметки с синхронизацией и совместной работой.">
+  <title>Neytes — заметки без лишнего</title>
+  <link rel="icon" href="assets/app_icon.ico">
+  <style>
+    :root{color-scheme:dark;--bg:#08121a;--panel:#0e1c26;--line:#1d3541;--text:#e5edf2;--muted:#8ea2ae;--accent:#1fc7bb;--accent2:#77f2d8}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 70% 12%,#103444 0,transparent 34%),var(--bg);color:var(--text);font:16px/1.6 Inter,Segoe UI,Arial,sans-serif}
+    a{color:inherit}.wrap{width:min(1080px,calc(100% - 40px));margin:auto}nav{height:74px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:11px;font-weight:750;text-decoration:none;font-size:19px}.brand img{width:30px;height:30px}.nav-link{color:var(--muted);text-decoration:none}.hero{min-height:620px;display:grid;grid-template-columns:1.08fr .92fr;gap:60px;align-items:center;padding:50px 0 90px}.eyebrow{color:var(--accent2);font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:700}h1{font-size:clamp(44px,7vw,76px);line-height:1.02;letter-spacing:-.045em;margin:16px 0 24px}.lead{font-size:19px;color:var(--muted);max-width:620px}.actions{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}.button{border:1px solid var(--line);border-radius:10px;padding:12px 19px;text-decoration:none;font-weight:700}.primary{background:var(--accent);border-color:var(--accent);color:#05201e}.mock{border:1px solid var(--line);background:linear-gradient(145deg,#10232e,#0a171f);border-radius:22px;padding:18px;box-shadow:0 35px 100px #0008;transform:rotate(1deg)}.window{border:1px solid #27434f;border-radius:12px;overflow:hidden}.window-top{height:38px;border-bottom:1px solid #203946;display:flex;align-items:center;padding:0 13px;color:var(--muted);font-size:12px}.window-body{display:grid;grid-template-columns:36% 64%;height:310px}.sidebar{border-right:1px solid #203946;padding:18px}.note{padding:23px}.line{height:9px;background:#27404b;border-radius:20px;margin:11px 0}.line.accent{background:#169f98;width:45%}.line.short{width:64%}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 0 100px}.feature{background:#0c1922cc;border:1px solid var(--line);border-radius:14px;padding:25px}.feature h2{font-size:18px;margin:8px 0}.feature p{color:var(--muted);margin:0}.icon{color:var(--accent);font-size:24px}footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:13px}.footer-row{display:flex;justify-content:space-between;gap:20px}
+    @media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:30px}.mock{display:none}.features{grid-template-columns:1fr}h1{font-size:48px}.footer-row{display:block}}
+  </style>
+</head>
+<body>
+  <nav class="wrap"><a class="brand" href="/"><img src="assets/neytes_mark.svg" alt=""><span>Neytes</span></a><a class="nav-link" href="downloads/Neytes-Setup.exe">Скачать</a></nav>
+  <main class="wrap">
+    <section class="hero">
+      <div><div class="eyebrow">Ваши мысли. Под вашим контролем.</div><h1>Заметки без лишнего шума.</h1><p class="lead">Быстрое приложение для Windows с локальным шифрованием, постоянной синхронизацией и совместной работой.</p><div class="actions"><a class="button primary" href="downloads/Neytes-Setup.exe">Скачать для Windows</a><a class="button" href="#features">Возможности</a></div></div>
+      <div class="mock" aria-hidden="true"><div class="window"><div class="window-top">Neytes</div><div class="window-body"><div class="sidebar"><div class="line accent"></div><div class="line"></div><div class="line short"></div><div class="line"></div></div><div class="note"><div class="line accent"></div><div class="line"></div><div class="line"></div><div class="line short"></div><br><div class="line"></div><div class="line short"></div></div></div></div></div>
+    </section>
+    <section class="features" id="features"><article class="feature"><div class="icon">◇</div><h2>Шифрование на устройстве</h2><p>Содержимое заметок шифруется до отправки на сервер.</p></article><article class="feature"><div class="icon">↻</div><h2>Постоянная синхронизация</h2><p>Изменения появляются на ваших устройствах без ручного обновления.</p></article><article class="feature"><div class="icon">⌘</div><h2>Совместная работа</h2><p>Делитесь заметками и редактируйте их вместе без потери изменений.</p></article></section>
+  </main>
+  <footer><div class="wrap footer-row"><span>© 2026 Neytes</span><span>Зашифрованные заметки для Windows</span></div></footer>
+</body>
+</html>
