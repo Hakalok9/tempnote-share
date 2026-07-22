@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta name="referrer" content="no-referrer">
-  <title>Neytes - общий доступ</title>
+  <title>Neytes — общий доступ</title>
   <link rel="icon" href="../assets/neytes_mark.svg" type="image/svg+xml">
   <style>
     :root {
@@ -13,16 +13,15 @@
       font-family: Inter, "Segoe UI", sans-serif;
       background: #0b1118;
       color: #e7edf3;
+      --panel: #111b24;
+      --border: #2a3b48;
+      --muted: #91a3b0;
+      --accent: #19bca9;
     }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      grid-template-rows: 48px 1fr;
-      background: #0b1118;
-    }
+    body { margin: 0; min-height: 100vh; background: #0b1118; }
     header {
+      height: 48px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -32,23 +31,20 @@
       font-weight: 650;
     }
     header img { width: 24px; height: 24px; }
-    main {
-      display: grid;
-      place-items: center;
-      padding: 24px;
-    }
+    main { min-height: calc(100vh - 48px); padding: 24px; }
+    .center { min-height: calc(100vh - 96px); display: grid; place-items: center; }
     .panel {
-      width: min(100%, 480px);
+      width: min(100%, 500px);
       padding: 28px;
-      border: 1px solid #30414e;
-      border-radius: 8px;
-      background: #111b24;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--panel);
       box-shadow: 0 18px 48px rgb(0 0 0 / 30%);
       text-align: center;
     }
     .mark { width: 78px; height: 78px; margin: 0 auto 18px; }
-    h1 { margin: 0 0 10px; font-size: 24px; letter-spacing: 0; }
-    p { margin: 0; color: #9cadba; line-height: 1.55; }
+    h1 { margin: 0 0 10px; font-size: 24px; }
+    p { margin: 0; color: var(--muted); line-height: 1.55; }
     .actions { display: grid; gap: 10px; margin-top: 24px; }
     button, a.button {
       min-height: 42px;
@@ -57,28 +53,47 @@
       justify-content: center;
       gap: 8px;
       border-radius: 6px;
-      border: 1px solid #1ccab7;
+      border: 1px solid var(--accent);
       padding: 9px 14px;
       font: inherit;
       font-weight: 650;
       text-decoration: none;
       cursor: pointer;
     }
-    button { background: #19bca9; color: #061310; }
-    a.button { background: transparent; color: #d9e4eb; border-color: #40515e; }
+    button { background: var(--accent); color: #061310; }
+    button.secondary, a.button { background: transparent; color: #d9e4eb; border-color: #40515e; }
     button:disabled { opacity: .45; cursor: default; }
-    .status { min-height: 42px; margin-top: 18px; font-size: 13px; color: #8496a4; }
+    .status { min-height: 42px; margin-top: 18px; font-size: 13px; }
     .error { color: #ff9a9f; }
-    .security {
-      margin-top: 20px;
-      padding-top: 16px;
-      border-top: 1px solid #283742;
-      font-size: 12px;
-      color: #718593;
+    .security { margin-top: 20px; padding-top: 16px; border-top: 1px solid #283742; font-size: 12px; color: #718593; }
+    .hidden { display: none !important; }
+    .viewer { width: min(100%, 920px); margin: 22px auto; }
+    .viewer-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+    .live { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 13px; }
+    .live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px rgb(25 188 169 / 60%); }
+    .note {
+      min-height: 360px;
+      padding: clamp(24px, 5vw, 58px);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #101922;
+      box-shadow: 0 18px 48px rgb(0 0 0 / 24%);
     }
-    @media (max-width: 520px) {
-      main { padding: 14px; align-items: start; padding-top: 9vh; }
+    .note-title { margin: 0 0 30px; font-size: clamp(24px, 4vw, 36px); overflow-wrap: anywhere; }
+    .note-content { color: #dce5eb; font-size: 16px; line-height: 1.65; }
+    .note-content p { margin: 0 0 16px; color: inherit; white-space: pre-wrap; }
+    .note-content h1, .note-content h2, .note-content h3 { margin: 28px 0 12px; }
+    .task { display: flex; align-items: flex-start; gap: 10px; margin: 9px 0; white-space: pre-wrap; }
+    .task input { width: 17px; height: 17px; margin-top: 4px; accent-color: var(--accent); }
+    .attachment { margin: 12px 0; padding: 12px; border: 1px dashed #40515e; border-radius: 6px; color: var(--muted); }
+    .youtube { color: #5bd8ca; }
+    @media (max-width: 560px) {
+      main { padding: 14px; }
+      .center { min-height: calc(100vh - 76px); align-items: start; padding-top: 7vh; }
       .panel { padding: 22px 18px; }
+      .viewer { margin-top: 8px; }
+      .viewer-bar { align-items: flex-start; flex-direction: column; }
+      .note { padding: 24px 18px; }
     }
   </style>
 </head>
@@ -88,41 +103,239 @@
     <span>Neytes</span>
   </header>
   <main>
-    <section class="panel" aria-labelledby="title">
-      <img class="mark" src="../assets/neytes_mark.svg" alt="">
-      <h1 id="title">Вам открыли доступ</h1>
-      <p id="description">Откройте приглашение в Neytes. Для принятия доступа потребуется войти в аккаунт.</p>
-      <div class="actions">
-        <button id="open" type="button">Открыть в Neytes</button>
-        <a class="button" href="https://api.neytes.space/downloads/Neytes-Setup.exe">Скачать для Windows</a>
+    <div id="landing" class="center">
+      <section class="panel" aria-labelledby="landing-title">
+        <img class="mark" src="../assets/neytes_mark.svg" alt="">
+        <h1 id="landing-title">Вам открыли доступ</h1>
+        <p id="description">Проверяем ссылку…</p>
+        <div class="actions">
+          <button id="view-web" class="hidden" type="button">Смотреть на сайте</button>
+          <button id="open-app" class="secondary" type="button">Открыть в приложении</button>
+          <a class="button" href="https://api.neytes.space/downloads/Neytes-Setup.exe">Скачать Neytes для Windows</a>
+        </div>
+        <p class="status" id="status"></p>
+        <p class="security">Заметка остаётся зашифрованной на сервере. Ключ после символа # обрабатывается только на вашем устройстве.</p>
+      </section>
+    </div>
+
+    <section id="viewer" class="viewer hidden" aria-live="polite">
+      <div class="viewer-bar">
+        <span id="live-status" class="live">Подключение…</span>
+        <button id="viewer-open-app" class="secondary" type="button">Открыть в Neytes</button>
       </div>
-      <p class="status" id="status">Если приложение установлено, браузер предложит его открыть.</p>
-      <p class="security">Секрет приглашения находится только после символа # и не отправляется этому сайту.</p>
+      <article class="note">
+        <h1 id="note-title" class="note-title">Загрузка…</h1>
+        <div id="note-content" class="note-content"></div>
+      </article>
     </section>
   </main>
+
   <script>
     (() => {
+      const apiBase = 'https://api.neytes.space';
       const params = new URLSearchParams(window.location.search);
       const invite = params.get('invite');
       const secret = window.location.hash.slice(1);
-      const openButton = document.getElementById('open');
+      const landing = document.getElementById('landing');
+      const viewer = document.getElementById('viewer');
+      const webButton = document.getElementById('view-web');
+      const appButton = document.getElementById('open-app');
+      const viewerAppButton = document.getElementById('viewer-open-app');
+      const description = document.getElementById('description');
       const status = document.getElementById('status');
+      const liveStatus = document.getElementById('live-status');
+      const titleNode = document.getElementById('note-title');
+      const contentNode = document.getElementById('note-content');
+      const decoder = new TextDecoder();
+      let noteKey;
+      let lastVersion = -1;
+      let viewing = false;
+      let pollTimer;
+
+      const fail = (message) => {
+        status.textContent = message;
+        status.classList.add('error');
+        webButton.disabled = true;
+        appButton.disabled = true;
+      };
 
       if (!invite || !secret || !/^[a-zA-Z0-9-]+$/.test(invite)) {
-        openButton.disabled = true;
-        status.textContent = 'Ссылка повреждена или неполная.';
-        status.classList.add('error');
+        fail('Ссылка повреждена или неполная.');
         return;
       }
 
       const deepLink = `tempnotes://share/${encodeURIComponent(invite)}#${secret}`;
       const openApp = () => {
-        status.textContent = 'Открываем Neytes...';
+        status.textContent = 'Открываем Neytes…';
         window.location.href = deepLink;
       };
+      appButton.addEventListener('click', openApp);
+      viewerAppButton.addEventListener('click', openApp);
 
-      openButton.addEventListener('click', openApp);
-      window.setTimeout(openApp, 700);
+      const fromBase64 = (value) => Uint8Array.from(atob(value), (char) => char.charCodeAt(0));
+      const fromBase64Url = (value) => {
+        const normalized = value.replace(/-/g, '+').replace(/_/g, '/');
+        return fromBase64(normalized + '='.repeat((4 - normalized.length % 4) % 4));
+      };
+      const concat = (first, second) => {
+        const result = new Uint8Array(first.length + second.length);
+        result.set(first);
+        result.set(second, first.length);
+        return result;
+      };
+      const parseServerEnvelope = (value) => {
+        if (value.trim().startsWith('{')) return JSON.parse(value);
+        return JSON.parse(decoder.decode(fromBase64(value)));
+      };
+      const importAesKey = (bytes) => crypto.subtle.importKey('raw', bytes, 'AES-GCM', false, ['decrypt']);
+      const decryptEnvelope = async (value, key) => {
+        const envelope = parseServerEnvelope(value);
+        if (envelope.v !== 1 || envelope.alg !== 'aes-256-gcm') throw new Error('invalid_envelope');
+        const plaintext = await crypto.subtle.decrypt(
+          { name: 'AES-GCM', iv: fromBase64(envelope.nonce), tagLength: 128 },
+          key,
+          concat(fromBase64(envelope.ciphertext), fromBase64(envelope.mac)),
+        );
+        return decoder.decode(plaintext);
+      };
+
+      const appendStyledText = (parent, inline) => {
+        const text = inline.text || '';
+        const ranges = Array.isArray(inline.style_ranges) ? inline.style_ranges : [];
+        const boundaries = new Set([0, text.length]);
+        for (const range of ranges) {
+          boundaries.add(Math.max(0, Math.min(text.length, Number(range.start) || 0)));
+          boundaries.add(Math.max(0, Math.min(text.length, Number(range.end) || 0)));
+        }
+        const points = [...boundaries].sort((a, b) => a - b);
+        for (let index = 0; index < points.length - 1; index += 1) {
+          const start = points[index];
+          const end = points[index + 1];
+          if (end <= start) continue;
+          const active = ranges.filter((range) => start >= range.start && end <= range.end);
+          let node = document.createTextNode(text.slice(start, end));
+          if (inline.bold || active.some((range) => range.bold)) {
+            const strong = document.createElement('strong'); strong.append(node); node = strong;
+          }
+          if (inline.italic || active.some((range) => range.italic)) {
+            const em = document.createElement('em'); em.append(node); node = em;
+          }
+          parent.append(node);
+        }
+      };
+
+      const renderContent = (content) => {
+        contentNode.replaceChildren();
+        let documentValue;
+        try { documentValue = JSON.parse(content); } catch (_) { documentValue = null; }
+        if (!documentValue || documentValue.format !== 'tempnotes.block_document' || !Array.isArray(documentValue.blocks)) {
+          const paragraph = document.createElement('p');
+          paragraph.textContent = content;
+          contentNode.append(paragraph);
+          return;
+        }
+        for (const block of documentValue.blocks) {
+          if (block.type === 'heading') {
+            const level = Math.max(1, Math.min(3, Number(block.level) || 1));
+            const heading = document.createElement(`h${level}`);
+            heading.textContent = block.text || '';
+            contentNode.append(heading);
+            continue;
+          }
+          if (block.type === 'task') {
+            const row = document.createElement('label'); row.className = 'task';
+            const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.checked = Boolean(block.checked); checkbox.disabled = true;
+            const text = document.createElement('span'); text.textContent = block.text || '';
+            row.append(checkbox, text); contentNode.append(row);
+            continue;
+          }
+          if (block.type === 'youtube') {
+            const link = document.createElement('a'); link.className = 'youtube'; link.target = '_blank'; link.rel = 'noopener noreferrer';
+            link.href = block.youtube_url || block.text || '#'; link.textContent = block.youtube_url || block.text || 'YouTube';
+            contentNode.append(link); continue;
+          }
+          if (block.type === 'image') {
+            const placeholder = document.createElement('div'); placeholder.className = 'attachment'; placeholder.textContent = `Изображение: ${block.alt || 'вложение'}`;
+            contentNode.append(placeholder); continue;
+          }
+          const paragraph = document.createElement('p');
+          const inlines = Array.isArray(block.inlines) && block.inlines.length ? block.inlines : [{ type: 'text', text: block.text || '' }];
+          for (const inline of inlines) {
+            if (inline.type === 'text') appendStyledText(paragraph, inline);
+            else {
+              const attachment = document.createElement('span'); attachment.className = 'attachment'; attachment.textContent = inline.alt || 'Вложение'; paragraph.append(attachment);
+            }
+          }
+          contentNode.append(paragraph);
+        }
+      };
+
+      const loadSnapshot = async () => {
+        const response = await fetch(`${apiBase}/sharing/public/invites/${encodeURIComponent(invite)}/note`, { cache: 'no-store' });
+        if (!response.ok) throw new Error(response.status === 410 ? 'expired' : 'unavailable');
+        const snapshot = await response.json();
+        if (!noteKey) {
+          const inviteKey = await importAesKey(fromBase64Url(secret));
+          const bundleText = await decryptEnvelope(snapshot.encrypted_resource_bundle, inviteKey);
+          const bundle = JSON.parse(bundleText);
+          const resource = (bundle.resources || []).find((item) => item.resource_type === 'note' && item.resource_id === snapshot.note.id);
+          if (!resource) throw new Error('missing_note_key');
+          noteKey = await importAesKey(fromBase64(resource.resource_key));
+        }
+        if (snapshot.note.version !== lastVersion) {
+          const [title, content] = await Promise.all([
+            decryptEnvelope(snapshot.note.encrypted_title, noteKey),
+            decryptEnvelope(snapshot.note.encrypted_content, noteKey),
+          ]);
+          titleNode.textContent = title;
+          document.title = `${title} — Neytes`;
+          renderContent(content);
+          lastVersion = snapshot.note.version;
+        }
+        const updated = new Date(snapshot.note.updated_at);
+        liveStatus.textContent = `В реальном времени · обновлено ${updated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`;
+      };
+
+      const poll = async () => {
+        if (!viewing) return;
+        try {
+          await loadSnapshot();
+          liveStatus.classList.remove('error');
+        } catch (error) {
+          liveStatus.textContent = error.message === 'expired' ? 'Ссылка истекла' : 'Нет соединения, повторяем…';
+          liveStatus.classList.add('error');
+        } finally {
+          pollTimer = window.setTimeout(poll, 1500);
+        }
+      };
+
+      webButton.addEventListener('click', () => {
+        viewing = true;
+        landing.classList.add('hidden');
+        viewer.classList.remove('hidden');
+        window.clearTimeout(pollTimer);
+        poll();
+      });
+
+      const initialize = async () => {
+        try {
+          const response = await fetch(`${apiBase}/sharing/public/invites/${encodeURIComponent(invite)}`, { cache: 'no-store' });
+          if (!response.ok) throw new Error('expired');
+          const metadata = await response.json();
+          if (metadata.web_view_available) {
+            webButton.classList.remove('hidden');
+            description.textContent = 'Выберите: смотреть заметку в реальном времени на сайте или открыть её в приложении.';
+            status.textContent = 'Ссылка действует 7 дней и открывается на любом устройстве.';
+          } else {
+            description.textContent = 'Редактирование доступно только в приложении Neytes.';
+            status.textContent = 'Если приложение установлено, браузер предложит его открыть.';
+            window.setTimeout(openApp, 700);
+          }
+        } catch (_) {
+          fail('Ссылка недействительна или срок её действия закончился.');
+        }
+      };
+      initialize();
     })();
   </script>
 </body>
