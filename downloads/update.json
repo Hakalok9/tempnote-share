@@ -4,7 +4,7 @@
   "mandatory": true,
   "windows": {
     "url": "https://api.neytes.space/downloads/Neytes-Setup.exe",
-    "sha256": "8f7dcbf9269b657a9b11f492bc7f0325bca33bae857fc86022500987977cfe76",
-    "size": 18965069
+    "sha256": "e6687a904e367fad42e5be719cb7cd176bf61adb72e5e6677fb26bbaf8a85f31",
+    "size": 18965824
   }
 }
