@@ -89,7 +89,12 @@ jobs:
           repository=https://github.com/Hakalok9/tempnote-share.git
 
           if [ ! -d "$publish_path/.git" ]; then
-            git clone --branch main --single-branch "$repository" "$publish_path"
+            git clone \
+              --branch main \
+              --single-branch \
+              --depth 1 \
+              "$repository" \
+              "$publish_path"
           fi
 
           git -C "$publish_path" fetch origin main
