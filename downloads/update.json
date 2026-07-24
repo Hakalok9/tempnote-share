@@ -1,10 +1,10 @@
 {
-  "version": "0.1.72",
-  "build": 73,
+  "version": "0.1.73",
+  "build": 74,
   "mandatory": true,
   "windows": {
     "url": "https://api.neytes.space/downloads/Neytes-Setup.exe",
-    "sha256": "d06fd936ffb6533a871be2164f3356d84aee6415a597d32f981455fedcd8f43e",
-    "size": 19024581
+    "sha256": "ba7b6e438dca71d2d85f666d33281bf86768f85e6ec6da9ebb537911146a639a",
+    "size": 19044482
   }
 }
