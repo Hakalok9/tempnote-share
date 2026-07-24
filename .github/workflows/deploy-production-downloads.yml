@@ -1,0 +1,153 @@
+name: Deploy production downloads
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - downloads/**
+      - .github/workflows/deploy-production-downloads.yml
+  workflow_dispatch:
+
+concurrency:
+  group: production-downloads
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    env:
+      SSH_HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
+      SSH_USER: ${{ secrets.PRODUCTION_SSH_USER }}
+      SSH_PRIVATE_KEY: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
+      SSH_KNOWN_HOSTS: ${{ secrets.PRODUCTION_SSH_KNOWN_HOSTS }}
+      SSH_PORT: ${{ vars.PRODUCTION_SSH_PORT || '22' }}
+      PUBLISH_PATH: ${{ vars.PRODUCTION_PUBLISH_PATH || '/opt/tempnote-share-publish' }}
+      SITE_PATH: ${{ vars.PRODUCTION_SITE_PATH || '/opt/tempnotes/site' }}
+
+    steps:
+      - name: Checkout publication
+        uses: actions/checkout@v4
+
+      - name: Verify publication artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s downloads/Neytes-Setup.exe
+          test -s downloads/Neytes-Setup.exe.sha256
+          test -s downloads/update.json
+          (
+            cd downloads
+            sha256sum --check Neytes-Setup.exe.sha256
+          )
+          jq -e '
+            (.version | type == "string" and length > 0) and
+            (.build | type == "number") and
+            (.windows.sha256 | type == "string" and length == 64) and
+            (.windows.size | type == "number")
+          ' downloads/update.json >/dev/null
+          actual_size=$(stat --format='%s' downloads/Neytes-Setup.exe)
+          manifest_size=$(jq -r '.windows.size' downloads/update.json)
+          test "$actual_size" = "$manifest_size"
+
+      - name: Configure SSH
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in SSH_HOST SSH_USER SSH_PRIVATE_KEY SSH_KNOWN_HOSTS; do
+            if [ -z "${!name}" ]; then
+              echo "::error::$name is not configured"
+              exit 1
+            fi
+          done
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Pull and publish downloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            -p "$SSH_PORT" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$SSH_USER@$SSH_HOST" \
+            bash -s -- "$PUBLISH_PATH" "$SITE_PATH" "$GITHUB_SHA" <<'REMOTE'
+          set -euo pipefail
+          publish_path=$1
+          site_path=$2
+          expected_sha=$3
+          repository=https://github.com/Hakalok9/tempnote-share.git
+
+          if [ ! -d "$publish_path/.git" ]; then
+            git clone --branch main --single-branch "$repository" "$publish_path"
+          fi
+
+          git -C "$publish_path" fetch origin main
+          git -C "$publish_path" checkout main
+          git -C "$publish_path" merge --ff-only origin/main
+
+          actual_sha=$(git -C "$publish_path" rev-parse HEAD)
+          if [ "$actual_sha" != "$expected_sha" ]; then
+            echo "Expected $expected_sha, got $actual_sha" >&2
+            exit 1
+          fi
+
+          (
+            cd "$publish_path/downloads"
+            sha256sum --check Neytes-Setup.exe.sha256
+          )
+
+          destination="$site_path/downloads"
+          install -d "$destination"
+          for file in Neytes-Setup.exe Neytes-Setup.exe.sha256 update.json; do
+            install -m 0644 \
+              "$publish_path/downloads/$file" \
+              "$destination/.$file.tmp"
+            mv -f "$destination/.$file.tmp" "$destination/$file"
+          done
+
+          (
+            cd "$destination"
+            sha256sum --check Neytes-Setup.exe.sha256
+          )
+          REMOTE
+
+      - name: Verify public manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected_version=$(jq -r '.version' downloads/update.json)
+          expected_sha=$(jq -r '.windows.sha256' downloads/update.json)
+
+          for attempt in $(seq 1 12); do
+            manifest=$(curl \
+              --fail \
+              --silent \
+              --show-error \
+              --connect-timeout 5 \
+              --max-time 15 \
+              "https://api.neytes.space/downloads/update.json?run=$GITHUB_RUN_ID&attempt=$attempt" \
+              || true)
+
+            if jq -e \
+              --arg version "$expected_version" \
+              --arg sha "$expected_sha" \
+              '.version == $version and .windows.sha256 == $sha' \
+              <<<"$manifest" >/dev/null 2>&1; then
+              exit 0
+            fi
+            sleep 5
+          done
+
+          echo "::error::Public update manifest did not reach version $expected_version"
+          exit 1
