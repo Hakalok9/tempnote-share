@@ -3,7 +3,7 @@
   "build": 80,
   "mandatory": true,
   "windows": {
-    "url": "https://api.neytes.space/downloads/Neytes-Setup.exe",
+    "url": "https://neytes.space/downloads/Neytes-Setup.exe",
     "sha256": "57f5da7327ed35f1b7cb093c3306afd7cec8f8c4c0c6d4eb5bb7daebf9a1ad",
     "size": 19124601
   }
