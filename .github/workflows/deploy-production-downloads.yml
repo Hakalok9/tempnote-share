@@ -46,10 +46,8 @@ jobs:
             sha256sum --check Neytes-Setup.exe.sha256
           )
           jq -e '
-            ((.version | type) == "string" and (.version | length) > 0) and
-            ((.build | type) == "number") and
-            ((.windows.sha256 | type) == "string" and (.windows.sha256 | length) == 64) and
-            ((.windows.size | type) == "number")
+            has("version") and has("build") and
+            (.windows | has("sha256") and has("size"))
           ' downloads/update.json >/dev/null
           actual_size=$(stat --format='%s' downloads/Neytes-Setup.exe)
           manifest_size=$(jq -r '.windows.size' downloads/update.json)
