@@ -52,6 +52,15 @@ jobs:
           actual_size=$(stat --format='%s' downloads/Neytes-Setup.exe)
           manifest_size=$(jq -r '.windows.size' downloads/update.json)
           test "$actual_size" = "$manifest_size"
+          version=$(jq -r '.version' downloads/update.json)
+          installer_url=$(jq -r '.windows.url' downloads/update.json)
+          case "$installer_url" in
+            *"?version=$version"*) ;;
+            *)
+              echo "::error::Installer URL must contain ?version=$version"
+              exit 1
+              ;;
+          esac
 
       - name: Configure SSH
         shell: bash
